@@ -1,0 +1,21 @@
+version: "3"
+services:
+  postgres:
+    image: "postgres"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pgweb
+    ports:
+      - "5432:5432"
+    container_name: postgres
+    volumes:
+      - "./data:/var/lib/postgresql/data"
+  pgweb:
+    image: "sosedoff/pgweb"
+    environment:
+      DATABASE_URL: postgres://postgres:pgweb@postgres:5432/postgres?sslmode=disable
+    container_name: pgweb
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
